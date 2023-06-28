@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  django-admin:
+    build:
+      context: ./tgbot
+    container_name: django-admin
+    environment:
+      - DB_NAME=level
+      - DB_HOST=postgres
+      - DB_USER=armo
+      - DB_PASS=10192
+    restart: always
+    ports:
+      - 8000:8000
+    volumes:
+      - images:/tgbot/images
+    depends_on:
+      - postgres
+    command: sh -c
+      "python3 manage.py makemigrations app
+      && python3 manage.py migrate
+      && python3 manage.py runserver 0.0.0.0:8000"   
+  tgbot:
+    build:
+      context: ./tgbot
+    container_name: tgbot
+    environment:
+      - DB_NAME=level
+      - DB_HOST=postgres
+      - DB_USER=armo
+      - DB_PASS=10192
+      - API_TOKEN=6220163256:AAHJEbx2SAGGBZvQNM_RMI7KDlvdBHABOHc
+      - ELASTICSEARCH_HOSTS=http://elastic:9200
+    restart: always
+    ports:
+      - 8001:8001
+    volumes:
+      - images:/tgbot/images
+    command: sh -c 
+      "python3 main.py"
+    depends_on:
+      - django-admin
+      - postgres
+      - elastic
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=level
+      - POSTGRES_USER=armo
+      - POSTGRES_PASSWORD=10192
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  elastic:
+    build: 
+      context: ./elasticsearch
+    container_name: elastic
+    restart: always
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      xpack.security.enabled: false
+      discovery.type: single-node
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    
+
+volumes:
+  images: {}
+  pgdata: {}
+  esdata: {}
