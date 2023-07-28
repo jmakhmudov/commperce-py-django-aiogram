@@ -1,4 +1,5 @@
 import datetime
+import logging
 import re
 
 from aiogram import types
@@ -44,7 +45,9 @@ class FilterService:
                     }
                 }
             }
+            logging.info(shitwords)
             result = elastic.search(index="check", body=query)
+            logging.info(result)
             if result["hits"]["total"]["value"]:
                 return True
 

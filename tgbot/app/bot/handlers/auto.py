@@ -12,10 +12,11 @@ from app.bot.loader import bot, dp
 from bot_settings import check_publications
 
 
-@dp.message_handler(IsAllowedGroup(), IsNotChatAdmin())
+@dp.message_handler(IsAllowedGroup())
 async def chat_filtering(message: types.Message):
     try:
         need_to_delete, text, wait = filter_service.need_to_delete(message)
+        logging.info(need_to_delete)
         if need_to_delete:
             await message.delete()
             ans_text = await bot.send_message(

@@ -8,8 +8,8 @@ services:
     environment:
       - DB_NAME=level
       - DB_HOST=postgres
-      - DB_USER=armo
-      - DB_PASS=10192
+      - DB_USER=dika
+      - DB_PASS=12345
     restart: always
     ports:
       - 8000:8000
@@ -28,9 +28,9 @@ services:
     environment:
       - DB_NAME=level
       - DB_HOST=postgres
-      - DB_USER=armo
-      - DB_PASS=10192
-      - API_TOKEN=6220163256:AAHJEbx2SAGGBZvQNM_RMI7KDlvdBHABOHc
+      - DB_USER=dika
+      - DB_PASS=12345
+      - API_TOKEN=6205664464:AAH1YoZ2EEG9VxwaImOHS9j1maf6wJUirrI
       - ELASTICSEARCH_HOSTS=http://elastic:9200
     restart: always
     ports:
@@ -49,8 +49,8 @@ services:
     restart: always
     environment:
       - POSTGRES_DB=level
-      - POSTGRES_USER=armo
-      - POSTGRES_PASSWORD=10192
+      - POSTGRES_USER=dika
+      - POSTGRES_PASSWORD=12345
     volumes:
       - pgdata:/var/lib/postgresql/data
   elastic:
