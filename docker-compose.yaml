@@ -5,11 +5,8 @@ services:
     build:
       context: ./tgbot
     container_name: django-admin
-    environment:
-      - DB_NAME=level
-      - DB_HOST=postgres
-      - DB_USER=dika
-      - DB_PASS=12345
+    env_file:
+      - ./.env
     restart: always
     ports:
       - 8000:8000
@@ -25,13 +22,8 @@ services:
     build:
       context: ./tgbot
     container_name: tgbot
-    environment:
-      - DB_NAME=level
-      - DB_HOST=postgres
-      - DB_USER=dika
-      - DB_PASS=12345
-      - API_TOKEN=6205664464:AAH1YoZ2EEG9VxwaImOHS9j1maf6wJUirrI
-      - ELASTICSEARCH_HOSTS=http://elastic:9200
+    env_file:
+      - ./.env
     restart: always
     ports:
       - 8001:8001
@@ -47,10 +39,8 @@ services:
     image: postgres:latest
     container_name: postgres
     restart: always
-    environment:
-      - POSTGRES_DB=level
-      - POSTGRES_USER=dika
-      - POSTGRES_PASSWORD=12345
+    env_file:
+      - ./.env
     volumes:
       - pgdata:/var/lib/postgresql/data
   elastic:
