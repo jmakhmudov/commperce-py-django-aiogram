@@ -14,10 +14,7 @@ services:
       - images:/tgbot/images
     depends_on:
       - postgres
-    command: sh -c
-      "python3 manage.py makemigrations app
-      && python3 manage.py migrate
-      && python3 manage.py runserver 0.0.0.0:8000"   
+    command: bash /start.sh
   tgbot:
     build:
       context: ./tgbot
@@ -29,8 +26,7 @@ services:
       - 8001:8001
     volumes:
       - images:/tgbot/images
-    command: sh -c 
-      "python3 main.py"
+    command: bash /tgbot.sh
     depends_on:
       - django-admin
       - postgres
